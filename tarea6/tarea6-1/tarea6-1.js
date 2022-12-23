@@ -1,94 +1,95 @@
-function mayor(arr){
-    let numero_mayor = 0;
-    for(i = 0;i < arr.length; i++){
-        if(arr[i] > numero_mayor){
-            numero_mayor = arr[i];
-        };
-    };
-    return numero_mayor;
-};
 
-function menor(arr){
-    let numero_menor = arr[0];
-    for(i = 0; i < arr.length; i++){
-        if(numero_menor > arr[i]){
-            numero_menor = arr[i]
-        };
-    };
-    return numero_menor;
-};
-
-function promedio(arr){
-    let suma = 0;
-    for(i = 0 ; i < arr.length ; i++){
-        suma = suma + arr[i];
-    };
-    return suma / arr.length;
-};
-
-function nodelistArray(node){
-    let array = [];
-    for(i = 0 ; i < node.length ; i++){
-        array.push(node[i].value);
-    };
-    return array
-
-};
-function convertirEnArrayDeNumeros(array){
-    let numeros = []
-    for(i = 0 ; i < array.length ; i++){
-        numeros.push(Number(array[i]))
-    }
-    return numeros
-}
 function generarInputs(){
     
-    for(i = 0 ; i < personas.value ; i++){
+    for(i = 0 ; i < $people.value ; i++){
         const input_i = document.createElement("input")
-        input_i.id = `inputp`
+        const li_i = document.createElement(`li`)
+        li_i.id = `li`
+        input_i.id = `input`
+        input_i.name = `input${i}`
         input_i.type = `number`
-        const input2_i = document.createElement("li")
-        input2_i.appendChild(input_i)
-        lista.appendChild(input2_i)
+        li_i.appendChild(input_i)
+        $lista.appendChild(li_i)
+        
     }
 }
+
 function generarInputsVacios(){
+    const $lista2 = document.querySelector("#lista2")
     for(i = 0 ; i < 3 ; i++){
-    const input_i = document.createElement("input")
-    input_i.id = `input${i}`
-    input_i.disabled = true
-    const input2_i = document.createElement("li")
-    input2_i.appendChild(input_i)
-    lista2.appendChild(input2_i)
-    
-    };
+        const inputs_i = document.createElement("input")
+        const lii_i = document.createElement(`li`)
+        inputs_i.id = `input${i}`
+        inputs_i.disabled = true
+        lii_i.appendChild(inputs_i)
+        $lista2.appendChild(lii_i)
+        
+    }
+}
 
-};
-const container = document.querySelector("#container")
-const lista = document.querySelector("#form")
-const personas = document.querySelector("#personas")
-const lista2 = document.querySelector("#form2")
+function borrarInputsAnteriores(){
+    const inputs = document.querySelectorAll("#input")
+    if(inputs.length > 0){
+        for(i = 0 ; i < inputs.length ; i++){
+            $lista.removeChild($lista.lastChild)
+        }
+    }
+}
+
+function borrarInputsVacios(){
+    let inputs = []
+    for(i = 0; i < 3 ; i++){
+        inputs.push(document.querySelector(`#input${i}`))
+    }
+
+    if(inputs.length > 0 && inputs[0] !== null){
+        for(i = 0 ; i < inputs.length ; i++){
+            $lista2.removeChild($lista2.lastChild)
+        }
+    }
+}
+const $container = document.querySelector("#container")
+const $lista = document.querySelector("#lista")
+const $people = document.querySelector("#personas")
+const $lista2 = document.querySelector("#lista2")
+const $form = document.querySelector(`#form`)
 
 
-
-document.querySelector("#generar").onclick = function(){
+document.querySelector("#generar").onclick = function(event){
+    borrarInputsAnteriores()
+    validarFormPersonas()
     generarInputs()
-    return false
+    
+    $lista.className = ""
+   
+    event.preventDefault()
 }
 
 document.querySelector("#calcular").onclick = function(){
-    node = document.querySelectorAll(`#inputp`)
-    array = nodelistArray(node)
-    array1 = convertirEnArrayDeNumeros(array)
-    
+    borrarInputsVacios()
+    let array = document.querySelectorAll("#input")
+    let arrayEdades = convertirEnArrayDeNumeros(nodelistArray(array))
+    validarFormEdades()
     generarInputsVacios()
-    input0 = document.querySelector(`#input0`)
-    input1 = document.querySelector(`#input1`)
-    input2 = document.querySelector(`#input2`)
+    const inputA = document.querySelector(`#input0`)
+    const inputB = document.querySelector(`#input1`)
+    const inputC = document.querySelector(`#input2`)
 
-    input0.value = mayor(array1)
-    input1.value = menor(array1)
-    input2.value = promedio(array1)
+    inputA.value = mayor(arrayEdades)
+    inputB.value = menor(arrayEdades)
+    inputC.value = promedio(arrayEdades)
+
+    
     return false
 }
+
+
+
+
+
+
+
+//generar inputs con name distintos
+//utilizar un for y un queryselector para tomarlos y guardarlos en un array
+
 

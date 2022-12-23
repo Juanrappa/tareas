@@ -1,46 +1,4 @@
-function mayor(arr){
-    let numero_mayor = 0;
-    for(i = 0;i < arr.length; i++){
-        if(arr[i] > numero_mayor){
-            numero_mayor = arr[i];
-        };
-    };
-    return numero_mayor;
-};
 
-function menor(arr){
-    let numero_menor = arr[0];
-    for(i = 0; i < arr.length; i++){
-        if(numero_menor > arr[i]){
-            numero_menor = arr[i];
-        };
-    };
-    return numero_menor;
-};
-
-function promedio(arr){
-    let suma = 0;
-    for(i = 0 ; i < arr.length ; i++){
-        suma = suma + arr[i];
-    };
-    return suma / arr.length;
-};
-
-function nodelistArray(node){
-    let array = [];
-    for(i = 0 ; i < node.length ; i++){
-        array.push(node[i].value);
-    };
-    return array;
-
-};
-function convertirEnArrayDeNumeros(array){
-    let numeros = [];
-    for(i = 0 ; i < array.length ; i++){
-        numeros.push(Number(array[i]));
-    }
-    return numeros;
-}
 function generarInputs(){
     
 
@@ -77,23 +35,52 @@ function generarInputsVacios(){
         const label_i = document.createElement(`label`);
      label_i.htmlFor = `input${i}`;
      label_i.innerHTML = `${texto[i]}`;
-     container.appendChild(label_i);   
+     container2.appendChild(label_i);   
     const input_i = document.createElement("input");
     input_i.id = `input${i}`;
     input_i.disabled = true;
     const li_i = document.createElement("li");
     li_i.appendChild(input_i);
-    container.appendChild(li_i);
+    container2.appendChild(li_i);
     
     };
 
 };
 
+function colocarName(){
+    const inputs = document.querySelectorAll("#input")
+    for(i = 0 ; i < inputs.length; i++){
+        inputs[i].name = `input${i}`
+    }
+}
 
+function agarrarInputsVacios(){
+    let inputs = []
+
+    for(i = 0;i < 3; i++){
+        inputs.push(document.querySelector(`#input${i}`))
+    }
+
+    return inputs
+}
+
+function borrarInputsVaciosAnteriores(){
+    const inputs = agarrarInputsVacios()
+    if(inputs[0] !== null){
+        for(i = 0 ; i < 3 ; i++){
+            container2.removeChild(container2.lastChild)
+            }
+    }
+   
+}
+
+const container2 = document.querySelector("#container2")
 const container = document.querySelector(`#container`);
+const $form = document.querySelector("#form")
 
 document.querySelector(`#agregar`).onclick = function(){
     generarInputs();
+    colocarName()
     return false;
 };
 
@@ -105,6 +92,8 @@ document.querySelector(`#quitar`).onclick = function(){
 document.querySelector(`#calcular`).onclick = function(){
     const sueldos = document.querySelectorAll(`#input`);
     const arraySueldo = elininarCeros(convertirEnArrayDeNumeros(nodelistArray(sueldos)));
+    borrarInputsVaciosAnteriores()
+    validarForm()
     generarInputsVacios();
     document.querySelector(`#input0`).value = mayor(arraySueldo);
     document.querySelector(`#input1`).value = menor(arraySueldo);
